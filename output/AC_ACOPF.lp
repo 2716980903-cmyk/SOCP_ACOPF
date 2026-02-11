@@ -1,6 +1,6 @@
 \ Model AC_ACOPF_Model
 \ LP format - for model browsing. Use MPS format to capture full model detail.
-\ Signature: 0x3a0aa8dee93fadff
+\ Signature: 0x9b2d9d01169ac6dc
 Minimize
   l[0,0,1,0.005752591161723931,0.002932448856844086]
    + l[0,1,2,0.03075951673242839,0.0156667639990117]
@@ -42,8 +42,8 @@ Subject To
  DC_backlog_t0: x_dc[0,0,0] + x_dc[0,1,0] + B_dc[0,0] = 1400
  DC_conserve_t0: x_dc[0,0,0] + x_dc[0,1,0] <= 1400
  DC_end_backlog_t0: B_dc[0,0] <= 0
- DC_Lnet_t0: 6 x_dc[0,0,0] + 10 x_dc[0,1,0] <= 16800
- DC_Lq_t0: 0.01 B_dc[0,0] <= 25200
+ DC_QoS_t0: 7.25 x_dc[0,0,0] + 11.66666666666667 x_dc[0,1,0]
+   + 2333.333333333333 B_dc[0,0] <= 42000
  DC_pmap_k0_t0: - p_dc[0,0] + pdc_e[0,0] = 0
  DC_qmap_k0_t0: - 0.2030586606340042 pdc_e[0,0] + qdc_e[0,0] = 0
  DC_pmap_k1_t0: - p_dc[1,0] + pdc_e[1,0] = 0

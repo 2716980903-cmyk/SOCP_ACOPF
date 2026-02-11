@@ -107,26 +107,41 @@ def case33(t=0):
 
     ])
 
-        # ===================== Data Center (DC) data: 新增 =====================
+    # ===================== Data Center (DC) data: 新增（job / ms 口径） =====================
     # 两个数据中心挂接节点（1-indexed）：选 24号与30号母线
-    # 所有口径按文档：kW / ms
+    # 口径按文档：任务量用 job，时延用 ms；功率映射用 kW/job
     ppc["DC"] = {
-        "bus": array([24, 30]),                 # 数据中心所在母线编号（1-indexed）
-        "eta": array([1.0, 1.0]),               # η_k（kW/等价算力负荷），此处取1
-        "Cbar": array([2000.0, 2000.0]),        # C̄_k（kW）物理上限（可选）
-        "pf":  array([0.98, 0.98]),             # 功率因数（用于估算Q，若你不想加Q也可忽略）
-        # 单业务源 S={1}：d_{s,t}（kW），当前 T=1，所以给一个标量序列
-        "demand": array([1400]),              # d_{1,t}，t=0时 1400 kW
-        # τ_{s,k}：单程网络时延（ms），S=1 => 长度=K
-        "tau": array([6.0, 10.0]),              # 到两个DC的单程时延
-        # 时延预算（ms）：Lmax = Lnet,max + Lq,max
-        "Lnet_max": array([12.0]),              # L_net,max_{1,t}
-        "Lq_max":   array([18.0]),              # L_q,max_{1,t}
-        "Lmax":     array([30.0]),              # L_max_{1,t}
-        "gamma":    0.01,                       # γ_s（ms/kW），S=1
-        "B0":       0.0,                        # B_{s,0}（kW）
-        "Bend":     0.0                         # B_end_s（kW），设为0表示必须全部服务完
+    "bus": array([24, 30]),                 # 数据中心所在母线编号（1-indexed）
+
+    # ---- 任务量->功率映射 ----
+    "eta": array([1.0, 1.0]),               # η_k（kW/job），每处理 1 job 对应 1 kW 等效负荷（示例取1）
+
+    # ---- 单时段处理能力（容量） ----
+    "Cbar": array([2000.0, 2000.0]),        # C̄_k（job/period），单时段最多可处理的任务量上限
+    "pf":  array([0.98, 0.98]),             # 功率因数（估算Q用；不需要Q可不使用）
+
+    # ---- 单业务源 S={1}：到达任务量 d_{s,t} ----
+    # 当前 T=1，所以给一个长度为1的序列
+    "demand": array([1400.0]),              # d_{1,t}（job/period），t=0 到达 1400 个任务
+
+    # ---- 网络时延 τ_{s,k}（ms） ----
+    "tau": array([6.0, 10.0]),              # τ_{1,k}（ms），到两个DC的单程网络时延
+
+    # ---- 服务速率 μ_k（job/ms）：新增 ----
+    # 例：μ=0.8 job/ms => 800 job/s；μ=0.6 job/ms => 600 job/s
+    # 这样 1/μ 分别约 1.25ms、1.67ms 的“服务时间上界”，量级合理且不至于让QoS过紧
+    "mu": array([0.80, 0.60]),              # μ_k（job/ms）
+
+    # ---- 时延预算（ms） ----
+    "Lnet_max": array([12.0]),              # L_net,max_{1,t}（ms）
+    "Lq_max":   array([18.0]),              # L_q,max_{1,t}（ms）
+    "Lmax":     array([30.0]),              # L_max_{1,t}（ms）= Lnet_max + Lq_max（示例）
+
+    # ---- 初始/终端积压（job） ----
+    "B0":   0.0,                            # B_{1,0}（job）
+    "Bend": 0.0                             # B_end_1（job），取0表示终端必须清空积压
     }
+
 
 
     ## convert branch impedances from Ohms to p.u.
