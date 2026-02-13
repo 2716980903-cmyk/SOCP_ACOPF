@@ -1,6 +1,6 @@
 \ Model SOCP_ACOPF_Model
 \ LP format - for model browsing. Use MPS format to capture full model detail.
-\ Signature: 0x9b2d9d01169ac6dc
+\ Signature: 0xa251ddbfd899edcf
 Minimize
   l[0,0,1,0.005752591161723931,0.002932448856844086]
    + l[0,1,2,0.03075951673242839,0.0156667639990117]
@@ -45,9 +45,7 @@ Subject To
  DC_QoS_t0: 7.25 x_dc[0,0,0] + 11.66666666666667 x_dc[0,1,0]
    + 2333.333333333333 B_dc[0,0] <= 42000
  DC_pmap_k0_t0: - p_dc[0,0] + pdc_e[0,0] = 0
- DC_qmap_k0_t0: - 0.2030586606340042 pdc_e[0,0] + qdc_e[0,0] = 0
  DC_pmap_k1_t0: - p_dc[1,0] + pdc_e[1,0] = 0
- DC_qmap_k1_t0: - 0.2030586606340042 pdc_e[1,0] + qdc_e[1,0] = 0
  v_fixed_0: v[0,0] = 1
  NetInjP_t0_bus0: p[0,0] - Pg[0,0] = 0
  NetInjQ_t0_bus0: q[0,0] - Qg[0,0] = 0
@@ -96,7 +94,7 @@ Subject To
  NetInjP_t0_bus22: p[0,22] = -0.009
  NetInjQ_t0_bus22: q[0,22] = -0.005
  NetInjP_t0_bus23: p[0,23] + 0.0001 pdc_e[0,0] = -0.042
- NetInjQ_t0_bus23: q[0,23] + 0.0001 qdc_e[0,0] = -0.02
+ NetInjQ_t0_bus23: q[0,23] = -0.02
  NetInjP_t0_bus24: p[0,24] = -0.042
  NetInjQ_t0_bus24: q[0,24] = -0.02
  NetInjP_t0_bus25: p[0,25] = -0.006
@@ -108,7 +106,7 @@ Subject To
  NetInjP_t0_bus28: p[0,28] = -0.012
  NetInjQ_t0_bus28: q[0,28] = -0.007
  NetInjP_t0_bus29: p[0,29] + 0.0001 pdc_e[1,0] = -0.02
- NetInjQ_t0_bus29: q[0,29] + 0.0001 qdc_e[1,0] = -0.06
+ NetInjQ_t0_bus29: q[0,29] = -0.06
  NetInjP_t0_bus30: p[0,30] = -0.015
  NetInjQ_t0_bus30: q[0,30] = -0.007
  NetInjP_t0_bus31: p[0,31] = -0.021
@@ -835,6 +833,4 @@ Bounds
  Qg[0,0] free
  C_dc[0] <= 2000
  C_dc[1] <= 2000
- qdc_e[0,0] free
- qdc_e[1,0] free
 End
